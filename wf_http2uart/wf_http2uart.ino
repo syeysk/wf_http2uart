@@ -123,8 +123,6 @@ void apiHandler() {
 
     } else if (action == "get_data") {
 
-        String data_type = webServer.arg("data_type");
-
         JsonObject _settings = data["settings"].to<JsonObject>();
         _settings["wifi_mode"] = ee_data.wifi_mode;
         _settings["password"] = ee_data.password;
