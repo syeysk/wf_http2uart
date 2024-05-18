@@ -287,9 +287,9 @@ void setup() {
 
     /* Запускаем веб-сервер */
 
-    //webServer.on("/", HTTP_GET, handler_index_html);
+    webServer.on("/", HTTP_GET, handler_index_html);
     webServer.on("/api.c", HTTP_POST, apiHandler);
-    //set_handlers();
+    set_handlers();
 
     webServer.onNotFound(notFoundHandler);
     webServer.begin();

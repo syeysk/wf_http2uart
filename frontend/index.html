@@ -5,11 +5,11 @@
         <meta name="viewport" content="width=device-width">
         <title>{{ product_name }} v{{ product_version }}</title>
         <script src="functions_embedded.js"> </script>
-        <script src="functions_wfnli.js"> </script>
+        <script src="functions_device.js"> </script>
         <link rel="stylesheet" type="text/css" href="index.css">
     </head>
     <body>
-        
+
         <div class="navpanel">
             <div data-content="managing">{{ panel_managing }}</div>
             <div data-content="set">{{ panel_set }}</div>
@@ -17,8 +17,9 @@
 
         <div class="content" id="content_managing">
             <form>
-                <input type="text" value="" name="string_data">
-				<input type='button' value='{{ send_on_device }}' onclick="sendform(this, 'send_to_serail')">
+                <textarea name="string_data"></textarea>
+				<br>
+                <input type='button' value='{{ send_on_device }}' onclick="sendform(this, 'send_to_serail')">
                 <br>
             </form>
         </div>
@@ -36,7 +37,7 @@
 
             <form class='settings' id="form_device_name">
                 <fieldset><legend>{{ set_device_name }}</legend>
-            
+
                 <table>
                     <tr>
                         <td> <input type="text" name='device_name'> </td> <td> <input type='button' value='{{ save }}' onclick="sendform(this, 'settings_device_name')"> </td>
@@ -70,9 +71,9 @@
                         <td>{{ set_wifi_password }}: </td> <td> <input type="text" name='password'> </td>
                     </tr>
                 </table>
-                
+
                 <br>
-                
+
                 <input type='button' value='{{ save }}' onclick="sendform(this, 'settings')">
 
                 </fieldset>
@@ -90,8 +91,8 @@
             </form>
 
         </div>
-        
+
         <script src="after_load.js"> </script>
-        
+
     </body>
 </html>

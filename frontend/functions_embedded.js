@@ -433,7 +433,7 @@ class ContentShower {
 
         this.updater = this.updater.bind(this);
         this.timer_id = 0;
-        this.update_time = 2000;
+        this.update_time = 20000;
         this.updater_on();
     }
     
