@@ -54,6 +54,7 @@ void apiHandler() {
 
     if (action == "send_to_serial") {
         String string_data = webServer.arg("string_data");
+        String timeout_read = webServer.arg("timeout_read");
 
         #if defined(LANG_RU)
             answer["message"] = "Строка отправлена!";
@@ -62,12 +63,9 @@ void apiHandler() {
         #endif
 
         Serial.print(string_data);
-        unsigned long start_time = millis();
-        while (Serial.available() == 0) {
-            if (millis() - start_time >= 5000) {
-                answer["message"] = "The string has been send! The device did'nt answer";
-                break;
-            }
+        delay(timeout_read.toInt());
+        if (Serial.available() == 0) {
+            answer["message"] = "The string has been send! The device did'nt answer";
         }
         data["string_response_data"] = Serial.readString();
 

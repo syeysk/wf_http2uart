@@ -26,6 +26,6 @@ void handler_index_css() {
 void handler_index_html() {
     webServer.sendHeader("Content-Encoding", "gzip");
     //File f = SPIFFS.open("/index.html", "r");
-    webServer.send_P(200, "text/html", const_handler_index_html, 1108);
+    webServer.send_P(200, "text/html", const_handler_index_html, 1132);
 }
 
