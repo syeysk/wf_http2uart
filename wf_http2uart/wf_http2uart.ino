@@ -52,7 +52,7 @@ void apiHandler() {
     #endif
     JsonObject data = answer["data"].to<JsonObject>();
 
-    if (action == "send_to_serail") {
+    if (action == "send_to_serial") {
         String string_data = webServer.arg("string_data");
 
         #if defined(LANG_RU)
