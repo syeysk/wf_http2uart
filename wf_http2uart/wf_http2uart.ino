@@ -73,9 +73,9 @@ void apiHandler() {
 
     } else if (action == "settings_mode") {
 
-        String mode = webServer.arg("wifi_mode");
-        if (mode.toInt() > 2 ||mode.toInt() < 0) mode = "0";
-        ee_data.wifi_mode = mode.toInt();
+        byte mode = webServer.arg("wifi_mode").toInt();
+        if (mode > 2 || mode < 0) mode = 0;
+        ee_data.wifi_mode = mode;
 
         EEPROM.put(ee_addr_start_settings, ee_data);
         EEPROM.commit();
@@ -205,7 +205,7 @@ byte wfr_wifiClient_start(byte trying_count) {
     byte x = 0;
     while (WiFi.status() != WL_CONNECTED) {
         delay(500);
-        Serial.print(".");
+        //Serial.print(".");
         x += 1;
         if (x == trying_count) break;
     }
@@ -215,7 +215,6 @@ byte wfr_wifiClient_start(byte trying_count) {
 }
 
 void setup() {
-
     /* Первичная инициализация */
 
     digitalWrite(2, HIGH);
@@ -226,7 +225,7 @@ void setup() {
     EEPROM.begin(4096);//EEPROM.begin(ee_addr_start_settings+sizeof(ee_data));
     delay(10);
     pinMode(pin_btn_reset, INPUT);
-    Serial.println();
+    //Serial.println();
 
     pinMode(pin_btn_reset, INPUT);
     // https://mirrobo.ru/c-arduino-ide-esp8266-preryvaniya-interrupt/
@@ -244,34 +243,22 @@ void setup() {
 
     /* подготовка к запуску wifi */
 
-    Serial.println("");
+    //Serial.println("");
     byte _wifi_mode = ee_data.wifi_mode; // Не трогаем исходное значение
 
     /* WiFi как клиент */
 
     if (_wifi_mode == 1 || _wifi_mode == 2) {
-
-        /*WiFi.begin(ee_data.ssid, ee_data.password);
-
-        byte x = 0;
-        while (WiFi.status() != WL_CONNECTED) {
-            delay(500);
-            Serial.print(".");
-            x += 1;
-            if (x == 20) break;
-        }*/
-
         is_wifi_client_connected = wfr_wifiClient_start(20);
     
         if (is_wifi_client_connected == 1) {
-            Serial.println("WiFi connected");
-            Serial.print("Client IP: ");
-            Serial.println(WiFi.localIP());
+            //Serial.println("WiFi connected");
+            //Serial.print("Client IP: ");
+            //Serial.println(WiFi.localIP());
         } else { // если не подключились в качестве клиента, то запускаемся в качестве точки доступа
             WiFi.disconnect(true);
             _wifi_mode = 0;
         }
-
     }
 
     /* WiFi как точка доступа */
@@ -280,9 +267,9 @@ void setup() {
 
         WiFi.softAP(ee_data.ssidAP, ee_data.passwordAP);
       
-        Serial.println("AP started");
-        Serial.print("AP IP address: ");
-        Serial.println(WiFi.softAPIP());
+        //Serial.println("AP started");
+        //Serial.print("AP IP address: ");
+        //Serial.println(WiFi.softAPIP());
     }
 
     /* Запускаем веб-сервер */
@@ -293,19 +280,19 @@ void setup() {
 
     webServer.onNotFound(notFoundHandler);
     webServer.begin();
-    Serial.println("Server started");
+    //Serial.println("Server started");
 }
 
 void loop() {
     webServer.handleClient();
 
     // если мы не смогли подключиться к сети при старте - пробуем ещё
-    if (is_wifi_client_connected == 0 && (ee_data.wifi_mode == 1 || ee_data.wifi_mode == 2)) {
+    /*if (is_wifi_client_connected == 0 && (ee_data.wifi_mode == 1 || ee_data.wifi_mode == 2)) {
         is_wifi_client_connected = wfr_wifiClient_start(8);
         // если мы подключились к сети, но точку доступа включать не планировали, то выключим её
         if (is_wifi_client_connected == 1 && ee_data.wifi_mode == 1) {
             WiFi.softAPdisconnect();
         }
-    }
+    }*/
 }
 
